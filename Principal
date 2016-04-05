@@ -1,0 +1,159 @@
+#include <stdio.h>
+#include <stdlib.h>
+ 
+void limpa_buffer()
+{        /*Função Utilizada para limpar o buffer (ou seja, remover tudo o que não irá ser preciso)*/
+    char caracter;
+    do{
+        caracter = getchar();
+    }while(caracter != '\n');
+}
+ 
+void nova_viagem()
+{
+    /*Marca uma nova viagem caso haja vagas*/
+    /*se viagem estiver cheia, correr nova_viagem_reserva*/
+}
+ 
+void nova_viagem_reserva()
+{
+    /*colocar o cliente em lista de espera*/
+}
+ 
+void cancela_viagem()
+{
+    /*Marca uma nova viagem caso haja vagas*/
+    /*se viagem estiver cheia, correr cancela_viagem_reserva*/
+}
+ 
+void cancela_viagem_reserva()
+{
+    /*colocar o cliente em lista de espera*/
+}
+ 
+void menu()
+{
+    /*declarar variaveis*/
+    char opcao, seg_elem;
+    int opcao2;
+ 
+    /*Lista de opções numerada*/
+    printf("Que deseja fazer? \n \n"); /*Linha que aparece antes do "menu"*/
+    printf("1 -> Reservar Viagem \n");
+    printf("2 -> Cancelar Viagem \n");
+    printf("3 -> Listar todas as viagens para o destino \n");
+    printf("4 -> Listar todas as viagens adquiridas pelo cliente \n");
+    printf("5 -> Lista de todos os clientes \n");
+    printf("0 -> Sair do programa \n");
+    printf("\n");
+ 
+    /*escolher o numero*/
+    ESCOLHA:do{
+        printf("-> ");  /*editar o texto do print*/
+        opcao = getchar();      /*primeiro caracter inserido*/
+ 
+        if(opcao == '\n')
+        {      /*caso se introduza apenas '\n', reinicia o ciclo*/
+            goto ESCOLHA;
+        }
+        seg_elem = getchar();   /*vai buscar o segundo elemento (supostamente '\n')*/
+        opcao2 = opcao;     /*converte o caracter de input para o nº correspondente em ASCII*/
+ 
+        if (opcao2 > 53 || opcao2 < 48 || seg_elem != '\n')
+        {    /*Numero ASCII entre 48 e 53 (0 a 5) e apenas um caracter de input*/
+            printf("Erro: Input inválido.\n\nEscolha novamente.\n");
+ 
+            if(seg_elem != '\n')
+            {       /*caso o input seja superior a 1 caracter, limpa o buffer*/
+                limpa_buffer();
+            }
+        }
+    }while(opcao2 > 53 || opcao2 < 48 || seg_elem != '\n');
+ 
+    /*opções (case)*/
+    switch(opcao)
+    {
+        case 49:
+            /*adquirir viagem / lista de espera*/
+            nova_viagem();
+            break;
+ 
+        case 50:
+            /*cancelar viagem / lista de espera*/
+            cancela_viagem();
+            break;
+ 
+        case 51:
+            /*listar todas as viagens para um determinado destino*/
+ 
+            break;
+ 
+        case 52:
+            /*Viagens adquiridas pelo cliente*/
+            break;
+ 
+        case 53:
+            /*listar todos os clientes (sem repetição)*/
+            break;
+ 
+        default:    /* == "case 48:" */
+            /*fazer alguma coisa?*/
+            printf(" :) \n");
+            exit(0);
+    }
+}
+ 
+void programa()
+{
+    int flag, teste;
+    char sim_nao, seg_elem;
+    flag = 0;   /*Flag que serve para determinar se o programa irá voltar a correr ou não*/
+ 
+    do{
+        menu();
+ 
+        ESCOLHA:do{
+            printf("\n\nRealizar mais alguma operação?\nSim - 1 |Nao - 0\n");
+            printf("->");
+            sim_nao = getchar();
+ 
+            if(sim_nao == '\n')
+            { /*previne o primeiro elemento ser '\n'*/
+                goto ESCOLHA;       /*reinicia o ciclo caso o primeiro elemento seja '\n'*/
+            }
+            seg_elem = getchar();  /*caso o input tenha mais do que um caracter (segundo elemento != \n), para não dar confusão*/
+            teste = sim_nao;      /*converte o input para o numero equivalente em código ASCII*/
+ 
+            if(teste < 48 || teste > 49 || seg_elem != '\n')
+            {   /*se o numero ASCII do input for diferente ao do '0' ou '1'*/
+                printf("Erro: Input invalido.\n");
+ 
+                if(seg_elem != '\n')
+                {       /*se o segundo elemento for '\n', a funçao não pedirá input*/
+                    limpa_buffer();
+                }
+            }
+ 
+        }while(teste < 48 || teste > 49 || seg_elem != '\n');
+ 
+        if (teste == 48)
+        {   /*Se o input for '1'*/
+            flag = 0;
+        }
+ 
+        else
+        {               /*Se o input for '0'*/
+            flag = 1;
+        }
+        printf("\n\n");     /*Para o texto na consola não ficar tão compacto, e ficar mais agradavel a vista*/
+ 
+    }while(flag);           /*Enquanto flag = 0, corre o loop*/
+}
+ 
+int main()
+{
+    programa(); /*Inicia a função "principal" do programa*/
+    return 0;
+}
+/*03/04/2016 03:30 José Monteiro: Adicionada a função "programa", função 'main' editada*/
+/*03/04/2016 15:19 José Monteiro: Adicionada a função "limpa_buffer", adicionadas proteções na função "programa" e "menu"*/
